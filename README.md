@@ -1,4 +1,4 @@
-# Valuation Data Package
+# Comparables Data Package
 ## Description
 
 The valuation_data package provides access to the financial comparables data provided by Aswath Damodaran via his website. Specifically, the library generates pandas DataFrames and Series containing a variety of metrics useful when valuing businesses or assessing individual industries.
