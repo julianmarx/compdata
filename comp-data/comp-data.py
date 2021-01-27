@@ -4,9 +4,9 @@ import pandas as pd
 
 
 '''
-Valuation data generator (v.0.0.1)
+comp-data package (v.0.0.1)
 =======================================================================
-The valuation_data package provides access ot the comparables data 
+The comp-data package provides access ot the comparables data 
 provided by Aswath Damodaran on his website. Specifically, the library
 generates pandas DataFrames containing a variety of metrics useful when
 valuing businesses or individual industries.
@@ -82,6 +82,7 @@ def get_table(url, columns_position = 0, index = 'industry name'):
         text = text.replace('\n\t\t\t        ', ' ')
         text = text.replace('\n\t\t        ', ' ')
         text = text.replace('\n\t\t', ' ')
+        text = text.replace('\n\t        ', ' ')
         text = text.replace('\n\t', ' ')
         text = text.replace('\n        ', ' ')
         text = text.replace('\n      ', ' ')
@@ -102,6 +103,7 @@ def get_table(url, columns_position = 0, index = 'industry name'):
             text = text.replace('\n\t\t\t        ', ' ')
             text = text.replace('\n\t\t        ', ' ')
             text = text.replace('\n\t\t', ' ')
+            text = text.replace('\n\t        ', ' ')
             text = text.replace('\n\t', ' ')
             text = text.replace('\n        ', ' ')
             text = text.replace('\n      ', ' ')
@@ -145,7 +147,6 @@ class Market:
     # Discount rate estimation
     returns_url = 'histretSP.html'
     risk_premiums_US_url = 'histimpl.html'
-    risk_premiums_other_url = 'ctryprem.html'
     country_tax_rates_url = 'countrytaxrate.html'
     risk_measures_url = 'mktcaprisk.html'
  
@@ -162,42 +163,37 @@ class Market:
     def get_returns(self):
         url = self.main_url + self.returns_url
         returns = get_table(url, 1, 'year')
-        return returns # Check
+        return returns
 
     def get_risk_premiums_US(self):
         url = self.main_url + self.risk_premiums_US_url
         risk_premiums_US = get_table(url, index = 'year')
-        return risk_premiums_US # Check
-
-    def get_risk_premiums_other(self):
-        url = self.main_url + self.risk_premiums_other_url
-        risk_premiums_other = get_table(url, index = 'country')
-        return risk_premiums_other # Check
+        return risk_premiums_US
 
     def get_country_tax_rates(self):
         url = self.main_url + self.country_tax_rates_url
         country_tax_rates = get_table(url, index = 'country')
-        return country_tax_rates # Check
+        return country_tax_rates
 
     def get_risk_measures(self):
         url = self.main_url + self.risk_measures_url
         risk_measures = get_table(url, index = 'market capitalization (decile)')
-        return risk_measures # Check
+        return risk_measures
 
     def get_macro(self):
         url = self.main_url + self.macro_url
         macro = get_table(url, index = 'date')
-        return macro # Check
+        return macro
 
     def get_market_cap_multiples(self):
         url = self.main_url + self.market_cap_multiples_url
         market_cap_multiples = get_table(url, index = 'market cap decile')
-        return market_cap_multiples # Check
+        return market_cap_multiples
 
     def get_country_multiples(self):
         url = self.main_url + self.country_multiples_url
         country_multiples = get_table(url, index = 'country')
-        return country_multiples # Check
+        return country_multiples
 
 
 class Industry:
@@ -211,11 +207,11 @@ class Industry:
     Attributes:
         main_url(str): String providing the basic url to Damodaran's 
         website
-        holdings_url(str): String providing the url addition to 
+        holdings_url(str): String providing the url addition to the 
         holdings dataset
         ...
         standard_deviation_url(str): String providing the url addition
-        to standard deviaiton dataset
+        to the standard deviaiton dataset
 
     Methods:
         get_holdings(): Calls get_table() to create industry holdings 
@@ -236,12 +232,6 @@ class Industry:
     cost_of_capital_url = 'wacc.html'
     industry_tax_rates_url = 'taxrate.html' 
 
-    # Dollar value measures
-    dollar_values_url = 'DollarUS.html'
-
-    # COVID effects
-    covid_effects_url = 'COVIDeffects.html'
-
     # Return measures
     eva_url = 'EVA.html'
 
@@ -252,7 +242,6 @@ class Industry:
 
     # Dividend policy
     dividends_fcfe_url = 'divfcfe.html'
-    dividend_fundamentals_url = 'divfund.html'
 
     # Cash flow estimation
     capital_expenditures_url = 'capex.html'
@@ -280,109 +269,109 @@ class Industry:
     def get_holdings(self):
         url = self.main_url + self.holdings_url
         holdings = get_table(url).loc[self.industry]
-        return holdings # Check
+        return holdings  
 
     def get_betas(self):
         url = self.main_url + self.betas_url
         betas = get_table(url).loc[self.industry]
-        return betas # Check
+        return betas  
 
     def get_total_betas(self):
         url = self.main_url + self.total_betas_url
         total_betas = get_table(url).loc[self.industry]
-        return total_betas # Check
+        return total_betas  
 
     def get_cost_of_capital(self):
         url = self.main_url + self.cost_of_capital_url
         cost_of_capital = get_table(url).loc[self.industry]
-        return cost_of_capital # Check
+        return cost_of_capital  
 
     def get_industry_tax_rates(self):
         url = self.main_url + self.industry_tax_rates_url
         industry_tax_rates = get_table(url, 1).loc[self.industry]
-        return industry_tax_rates # Check
+        return industry_tax_rates  
 
     def get_eva(self):
         url = self.main_url + self.eva_url
         eva = get_table(url).loc[self.industry]
-        return eva # Check
+        return eva  
 
     def get_debt_details(self):
         url = self.main_url + self.debt_details_url
         debt_details = get_table(url).loc[self.industry]
-        return debt_details # Check
+        return debt_details  
 
     def get_debt_fundamentals(self):
         url = self.main_url + self.debt_fundamentals_url
         debt_fundamentals = get_table(url).loc[self.industry]
-        return debt_fundamentals # Check
+        return debt_fundamentals  
 
     def get_leases(self):
         url = self.main_url + self.leases_url
         leases = get_table(url).loc[self.industry]
-        return leases # Check
+        return leases  
 
     def get_dividends_fcfe(self):
         url = self.main_url + self.dividends_fcfe_url
         dividends_fcfe = get_table(url).loc[self.industry]
-        return dividends_fcfe # Check
+        return dividends_fcfe  
 
     def get_capital_expenditures(self):
         url = self.main_url + self.capital_expenditures_url
         capital_expenditures = get_table(url).loc[self.industry]
-        return capital_expenditures # Check
+        return capital_expenditures  
 
     def get_margins(self):
         url = self.main_url + self.margins_url
         margins = get_table(url, 1).loc[self.industry]
-        return margins # Check
+        return margins  
 
     def get_working_capital(self):
         url = self.main_url + self.working_capital_url
         working_capital = get_table(url).loc[self.industry]
-        return working_capital # Check
+        return working_capital  
 
     def get_roe(self):
         url = self.main_url + self.roe_url
         roe = get_table(url).loc[self.industry]
-        return roe # Check
+        return roe  
 
     def get_eps_growth(self):
         url = self.main_url + self.eps_growth_url
         eps_growth = get_table(url).loc[self.industry]
-        return eps_growth # Check
+        return eps_growth  
 
     def get_historical_growth(self):
         url = self.main_url + self.historical_growth_url
         historical_growth = get_table(url).loc[self.industry]
-        return historical_growth # Check
+        return historical_growth  
 
     def get_ebit_growth(self):
         url = self.main_url + self.ebit_growth_url
         ebit_growth = get_table(url).loc[self.industry]
-        return ebit_growth # Check
+        return ebit_growth  
 
     def get_price_earnings(self):
         url = self.main_url + self.price_earnings_url
         price_earnings = get_table(url).loc[self.industry]
-        return price_earnings # Check
+        return price_earnings  
 
     def get_price_book(self):
         url = self.main_url + self.price_book_url
         price_book = get_table(url).loc[self.industry]
-        return price_book # Check
+        return price_book  
 
     def get_revenue_multiples(self):
         url = self.main_url + self.revenue_multiples_url
         revenue_multiples = get_table(url).loc[self.industry]
-        return revenue_multiples # Check
+        return revenue_multiples  
 
     def get_ev_multiples(self):
         url = self.main_url + self.ev_multiples_url
         ev_multiples = get_table(url, 1).loc[self.industry]
-        return ev_multiples # Check
+        return ev_multiples  
 
     def get_standard_deviation(self):
         url = self.main_url + self.standard_deviation_url
         standard_deviation = get_table(url).loc[self.industry]
-        return standard_deviation # Check
+        return standard_deviation
