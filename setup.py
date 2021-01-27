@@ -9,6 +9,6 @@ setuptools.setup(
                    financial comparables data provided by Aswath
                    Damodaran via his website.''',
     url="https://github.com/julianmarx/comp-data",
-    packages=['comp-data'],
+    packages=setuptools.find_packages(),
     keywords = ['finance', 'stocks', 'comparables data']
 )
