@@ -1,14 +1,14 @@
 import setuptools
 
 setuptools.setup(
-    name="comp-data",
+    name="compdata",
     version="0.0.1",
     author="Julian Marx",
     author_email="jhw.marx@gmail.com",
-    description='''The comp-data package provides access to the
+    description='''The compdata package provides access to the
                    financial comparables data provided by Aswath
                    Damodaran via his website.''',
-    url="https://github.com/julianmarx/comp-data",
+    url="https://github.com/julianmarx/compdata",
     packages=setuptools.find_packages(),
     keywords = ['finance', 'stocks', 'comparables data']
 )
